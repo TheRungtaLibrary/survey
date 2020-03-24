@@ -1,40 +1,56 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import './Step1.scss'
 import SurveyContext from '../../../contexts/SurveyContext';
 
 /**
- * Calculator component
+ * Step1 component
  */
 const Step1 = () => {
   const [name, setName] = React.useState("");
   const surveyContext = React.useContext(SurveyContext);
+  const history = useHistory();
 
   /**
-   * Handler for submit event for calculator form
-   * @param {Event} event 
+   * Handler for form submit event
    */
   const onSubmit = () => {
-    /**
-     * Pass Url to aync data loader in context provider
-     */
-    surveyContext.setSurveyData([{'Name':name}])
+    surveyContext.setSurveyData(['Name',name])
+    history.push('/steps/2');
   }
 
+  /**
+   * Click Handler for Prev button
+   */
   const onPrev = () => {
     surveyContext.decreaseSurveyStep();
+    history.push("/steps/0");
+  }
+
+  /**
+   * onChange Handler for input field
+   * @param {Event} event
+   */
+  const handleOptionChange = (event) => {
+    setName(event.target.value);
   }
 
     return (
       <form onSubmit={onSubmit} className="input-container panel">
-        <label>Question: What is your name?</label>
-        <input type="text" onChange={e => {setName(e.target.value)}} required/>
+        <p>
+          <label>Question: What is your name?</label>
+        </p>
+          <input 
+            type="text" 
+            onChange={handleOptionChange}
+            required
+          />
         <div className="nav-footer">
           <div>
-          <Link to="/steps/0" onClick={onPrev}>Prev</Link>
+            <button onClick={onPrev} disabled>Prev</button>
           </div>
           <div>
-            <Link to="/steps/2" onClick={onSubmit}>Next</Link>
+            <button type="submit">Next</button>
           </div>
         </div>
       </form>

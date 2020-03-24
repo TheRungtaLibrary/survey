@@ -8,7 +8,6 @@ import "./App.css";
 import {SurveyProvider} from "./contexts/SurveyContext";
 import Steps from "./components/Steps/Steps";
 import { ProgressBarContainer } from "./components/ProgressBarContainer/ProgressBarContainer";
-//import NavigationFooter from "./components/NavigationFooter/NavigationFooter";
 
 
 function App() {

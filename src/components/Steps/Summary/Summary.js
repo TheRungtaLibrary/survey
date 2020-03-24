@@ -1,21 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import './Summary.scss';
 import SurveyContext from '../../../contexts/SurveyContext';
 
 /**
- * Calculator component
+ * Summary component
  */
 const Summary = () => {
   const surveyContext = React.useContext(SurveyContext);
   const surveyData = surveyContext.getSurveyData();
+  const history = useHistory();
 
+  /**
+   * Click Handler for Reset button
+   */
   const onReset = () => {
     surveyContext.resetCurrentStep();
+    history.push("/intro");
   }
 
   return (
-    <div>
+    <div className="summary-container">
       <h2>Summary</h2>
       <table>
         <tbody>
@@ -27,7 +32,9 @@ const Summary = () => {
           ))}
         </tbody>
       </table>
-      <Link to="/" onClick={onReset}>Reset</Link>
+      <div>
+        <button onClick={onReset}>Reset the world and this form</button>
+      </div>
     </div>
   );
 }

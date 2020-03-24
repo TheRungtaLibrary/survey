@@ -1,15 +1,28 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { useStateWithLocalStorage } from "../utils/useStateWithLocalStorage";
 const SurveyContext = React.createContext(null);
 export const SurveyConsumer = SurveyContext.Consumer;
 
+/**
+ * Survey Context
+ * @constructor
+ */
 export function SurveyProvider({children}) {
-    const [info, setInfo] = React.useState([]); //useStateWithLocalStorage("formData");
-    let [currentStep, setCurrentStep] = React.useState(0);
+    const [info, setInfo] = React.useState([]);
+    let [currentStep, setCurrentStep] = React.useState(-1);
 
-    const setSurveyData = (dataObj)  => {
-        setInfo([...info, ...dataObj]);
+    const setSurveyData = ([key,value])  => {
+        const objIndex = info.findIndex(obj => {
+            return obj[key] !== undefined;
+        })
+
+        if(objIndex > -1) {
+            const updatedObj = { ...info[objIndex], [key]: value};
+            setInfo([ ...info.slice(0, objIndex),updatedObj,...info.slice(objIndex + 1)]);
+        }
+        else {
+            setInfo([...info, {[key]: value}]);
+        }
+        
         setCurrentStep(++currentStep);
     }
 
@@ -30,7 +43,7 @@ export function SurveyProvider({children}) {
     };
 
     const resetCurrentStep = () => {
-        setCurrentStep(0);
+        setCurrentStep(-1);
         setInfo([]);
     };
 

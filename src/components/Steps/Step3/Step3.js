@@ -1,38 +1,47 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import './Step3.scss';
 import SurveyContext from '../../../contexts/SurveyContext';
 
 /**
- * Calculator component
+ * Step3 component
  */
 const Step3 = () => {
   const [ageGroup, setAgeGroup] = React.useState();
   const surveyContext = React.useContext(SurveyContext);
-
+  const history = useHistory();
 
   /**
-   * Handler for submit event for calculator form
-   * @param {Event} event 
+   * Handler for form submit event
    */
   const onSubmit = () => {
     /**
      * Pass Url to aync data loader in context provider
      */
-    surveyContext.setSurveyData([{'Age Group':ageGroup}]);
+    surveyContext.setSurveyData(['Age Group',ageGroup]);
+    history.push("/steps/4");
   }
 
+  /**
+   * Click Handler for Prev button
+   */
+  const onPrev = () => {
+    surveyContext.decreaseSurveyStep();
+    history.push("/steps/2");
+  }
+
+  /**
+   * onChange Handler for input field
+   * @param {Event} event
+   */
   const handleOptionChange = (event) => {
     setAgeGroup(event.target.value);
   }
 
-  const onPrev = () => {
-    surveyContext.decreaseSurveyStep();
-  }
-
     return (
       <form onSubmit={onSubmit} className="input-container panel">
-        <p>Question: What is your age group?</p>
+        <p>
+          <label>Question: What is your age group?</label></p>
         <div>
           <input 
             type="radio" 
@@ -72,9 +81,11 @@ const Step3 = () => {
         </div>
         <div className="nav-footer">
           <div>
-          <Link to="/steps/2" onClick={onPrev}>Prev</Link>
+            <button onClick={onPrev}>Prev</button>
           </div>
-          <Link to="/steps/4" onClick={onSubmit}>Next</Link>
+          <div>
+            <button type="submit">Next</button>
+          </div>
         </div>
       </form>
     );

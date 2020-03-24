@@ -1,51 +1,61 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import './Step4.scss';
 import SurveyContext from '../../../contexts/SurveyContext';
 
 /**
- * Calculator component
+ * Step4 component
  */
 const Step4 = () => {
-  const [ageGroup, setAgeGroup] = React.useState();
+  const [ride, setRide] = React.useState();
   const surveyContext = React.useContext(SurveyContext);
-
+  const history = useHistory();
 
   /**
-   * Handler for submit event for calculator form
-   * @param {Event} event 
+   * Handler for form submit event
    */
   const onSubmit = () => {
-    /**
-     * Pass Url to aync data loader in context provider
-     */
-    surveyContext.setSurveyData([{ 'ageGroup': ageGroup }]);
+    surveyContext.setSurveyData(['Ride',ride]);
+    history.push("/steps/5");
   }
 
-  const handleOptionChange = (event) => {
-    setAgeGroup(event.target.value);
-  }
-
+  /**
+   * Click Handler for Prev button
+   */
   const onPrev = () => {
     surveyContext.decreaseSurveyStep();
+    history.push("/steps/3");
+  }
+
+  /**
+   * onChange Handler for input field
+   * @param {Event} event
+   */
+  const handleOptionChange = (event) => {
+    setRide(event.target.value);
   }
 
   return (
     <form onSubmit={onSubmit} className="input-container panel">
-      <p>Question: What is your nationality?</p>
+      <p>Question: What do you use to get to office?</p>
       <div>
-        <select>
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
+        <select onChange={handleOptionChange} required>
+          <option value="" selected disabled hidden>Choose here</option>
+          <option value="Bus">Bus</option>
+          <option value="UBahn">UBahn</option>
+          <option value="SBahn">SBahn</option>
+          <option value="Car">Car</option>
+          <option value="Bike">Bike</option>
+          <option value="Walk">I Walk</option>
         </select>
       </div>
       <div className="nav-footer">
         <div>
-          <Link to="/steps/3" onClick={onPrev}>Prev</Link>
+          <button onClick={onPrev}>Prev</button>
         </div>
-        <Link to="/steps/5" onClick={onSubmit}>Next</Link>
+        <div>
+          <button type="submit">Next</button>
+        </div>
       </div>
     </form>
   );

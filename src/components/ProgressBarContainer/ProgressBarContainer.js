@@ -2,17 +2,23 @@ import React, {useState, useEffect} from 'react';
 import './ProgressBarContainer.css';
 import { SurveyConsumer } from "../../contexts/SurveyContext";
 
-// pass percentRange state through props to Range an ProgressBar components
+/**
+ * Range component
+ * @param {*} props 
+ */
 const Range = (props) => {
     return (
-        // render current the filled range of progress bar along its width
         <div className="range" style={{width: `${props.percentRange}%`}}/>
     );
 };
 
+/**
+ *  ProgressBar Component
+ * @param {*} props 
+ */
 const ProgressBar = (props) => {
 
-  const percentRange = props.percentRange * 20 < 80 ? props.percentRange * 20 : 80;
+  const percentRange = props.percentRange * 25 < 100 ? props.percentRange * 20 : 100;
 
   return (
       <div className="progress-bar">
@@ -22,36 +28,20 @@ const ProgressBar = (props) => {
   );
 };
 
-
-function EffectedFn() {
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000 * 10);
-    });
-  
-    return (
-      <div>
-        {loading && <span>Loading...</span>}
-        {!loading && <span>All Done!</span>}
-      </div>
-    );
-  }
-
+/**
+ *  ProgressBarContainer Component
+ * @param {*} props 
+ */
 export const ProgressBarContainer = () => {
-
+  
   return (
-
     <SurveyConsumer>
     {({currentStep}) =>
+      currentStep>=0 &&
       <div className="container">
         <ProgressBar percentRange={currentStep}/>
     </div>
     }
   </SurveyConsumer>
-
-      
   );
 };
