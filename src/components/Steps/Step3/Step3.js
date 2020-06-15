@@ -7,7 +7,7 @@ import SurveyContext from '../../../contexts/SurveyContext';
  * Step3 component
  */
 const Step3 = () => {
-  const [ageGroup, setAgeGroup] = React.useState();
+  const [q3, setQ3] = React.useState();
   const surveyContext = React.useContext(SurveyContext);
   const history = useHistory();
 
@@ -18,7 +18,7 @@ const Step3 = () => {
     /**
      * Pass Url to aync data loader in context provider
      */
-    surveyContext.setSurveyData(['Age Group',ageGroup]);
+    surveyContext.setSurveyData(['Q3', q3]);
     history.push("/steps/4");
   }
 
@@ -35,56 +35,60 @@ const Step3 = () => {
    * @param {Event} event
    */
   const handleOptionChange = (event) => {
-    setAgeGroup(event.target.value);
+    setQ3(event.target.value);
   }
 
     return (
       <form onSubmit={onSubmit} className="input-container panel">
         <p>
-          <label>Question: What is your age group?</label></p>
+          <label>Your friends would say that you are cautious.</label></p>
         <div>
           <input 
-            type="radio" 
-            id="ageGroup1"
-            name="age" 
-            value="18-25"
+            type="radio"
+            name="q3"
+            value="-2"
             onChange={handleOptionChange}
-            defaultChecked/>
-          <label htmlFor="contactChoice1">18-25</label>
+          />
+          <label htmlFor="contactChoice1">Strongly Agree</label>
 
           <input 
-            type="radio" 
-            id="ageGroup2"
-            name="age" 
-            value="26-35"
+            type="radio"
+            name="q3" 
+            value="-1"
             onChange={handleOptionChange}
             />
-          <label htmlFor="contactChoice2">26-35</label>
+          <label htmlFor="contactChoice2">Agree</label>
 
           <input 
-            type="radio" 
-            id="ageGroup3"
-            name="age" 
-            value="35-50"
+            type="radio"
+            name="q3" 
+            value="0"
             onChange={handleOptionChange} 
             />
-          <label htmlFor="contactChoice3">35-50</label>
+          <label htmlFor="contactChoice3">Neither Agree nor Disagree</label>
 
           <input 
-            type="radio" 
-            id="ageGroup4"
-            name="age" 
-            value="51"
+            type="radio"
+            name="q3" 
+            value="1"
             onChange={handleOptionChange}
             />
-          <label htmlFor="contactChoice3">50+</label>
+          <label htmlFor="contactChoice3">Disagree</label>
+
+          <input 
+            type="radio"
+            name="q3" 
+            value="2"
+            onChange={handleOptionChange}
+            />
+          <label>Strongly Disagree</label>
         </div>
         <div className="nav-footer">
           <div>
             <button onClick={onPrev}>Prev</button>
           </div>
           <div>
-            <button type="submit">Next</button>
+            <button type="submit" disabled={q3===""}>Submit</button>
           </div>
         </div>
       </form>

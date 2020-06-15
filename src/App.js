@@ -7,7 +7,6 @@ import {
 import "./App.css";
 import {SurveyProvider} from "./contexts/SurveyContext";
 import Steps from "./components/Steps/Steps";
-import { ProgressBarContainer } from "./components/ProgressBarContainer/ProgressBarContainer";
 
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
         <Switch>
           <Route path="/">
             <SurveyProvider>
-              <ProgressBarContainer />
               <Steps />
             </SurveyProvider>
           </Route>

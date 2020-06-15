@@ -47,6 +47,15 @@ export function SurveyProvider({children}) {
         setInfo([]);
     };
 
+    const getRiskLevels = async () => {
+        let url = new URL('http://localhost:2000/risklevels');
+
+        const response = await fetch(url);
+        const jsonData = await response.json();
+    
+        return jsonData;
+      }
+
     const surveyContextValue = {
         getSurveyData,
         setSurveyData,
@@ -54,7 +63,8 @@ export function SurveyProvider({children}) {
         decreaseSurveyStep,
         getCurrentStep,
         currentStep,
-        resetCurrentStep
+        resetCurrentStep,
+        getRiskLevels
     }
 
     return (

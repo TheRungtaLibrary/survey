@@ -7,7 +7,7 @@ import SurveyContext from '../../../contexts/SurveyContext';
  * Step2 component
  */
 const Step2 = () => {
-  const [place, setPlace] = React.useState("");
+  const [q2, setQ2] = React.useState("");
   const surveyContext = React.useContext(SurveyContext);
   const history = useHistory();
 
@@ -15,7 +15,7 @@ const Step2 = () => {
    * Handler for form submit event
    */
   const onSubmit = () => {
-    surveyContext.setSurveyData(['Place of birth',place]);
+    surveyContext.setSurveyData(['Q2', q2]);
     history.push("/steps/3");
   }
 
@@ -32,21 +32,60 @@ const Step2 = () => {
    * @param {Event} event
    */
   const handleOptionChange = (event) => {
-    setPlace(event.target.value);
+    setQ2(event.target.value);
   }
 
     return (
       <form onSubmit={onSubmit} className="input-container panel">
         <p>
-          <label>Question: What is your place of birth?</label>
-        </p>
-        <input type="text" onChange={handleOptionChange} required/>
+          <label>I prefer my money to be safe from risk</label></p>
+        <div>
+          <input 
+            type="radio"
+            name="q2" 
+            value="-2"
+            onChange={handleOptionChange}
+          />
+          <label>Strongly Agree</label>
+
+          <input 
+            type="radio"
+            name="q2" 
+            value="-1"
+            onChange={handleOptionChange}
+            />
+          <label>Agree</label>
+
+          <input 
+            type="radio"
+            name="q2" 
+            value="0"
+            onChange={handleOptionChange} 
+            />
+          <label>Neither Agree nor Disagree</label>
+
+          <input 
+            type="radio"
+            name="q2" 
+            value="1"
+            onChange={handleOptionChange}
+            />
+          <label>Disagree</label>
+
+          <input 
+            type="radio"
+            name="q2" 
+            value="2"
+            onChange={handleOptionChange}
+            />
+          <label>Strongly Disagree</label>
+        </div>
         <div className="nav-footer">
           <div>
             <button onClick={onPrev}>Prev</button>
           </div>
           <div>
-            <button type="submit">Next</button>
+            <button type="submit" disabled={q2===""}>Next</button>
           </div>
         </div>
       </form>

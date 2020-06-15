@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Summary.scss';
 import SurveyContext from '../../../contexts/SurveyContext';
 
@@ -8,30 +8,46 @@ import SurveyContext from '../../../contexts/SurveyContext';
  */
 const Summary = () => {
   const surveyContext = React.useContext(SurveyContext);
-  const surveyData = surveyContext.getSurveyData();
+  const surveyInfo = surveyContext.getSurveyData();
   const history = useHistory();
+  const [riskLevels, setRiskLevels] = React.useState([]);
+  const [selectedRisk, setSelectedRisk] = React.useState();
+
+  surveyContext.getRiskLevels()
+    .then((value) => calculateRiskLevel(value));
+
+  const calculateRiskLevel = (value) => {
+    setRiskLevels(value);
+    let score = surveyInfo.reduce((sum, element) => {
+      return sum + parseInt(Object.values(element)[0]);
+    }, 0);
+
+    setSelectedRisk(value.filter(risk => risk.state === (Math.round(score/3)))[0]);
+  }
 
   /**
    * Click Handler for Reset button
    */
   const onReset = () => {
     surveyContext.resetCurrentStep();
-    history.push("/intro");
+    history.push("/");
   }
 
   return (
     <div className="summary-container">
-      <h2>Summary</h2>
-      <table>
+      <h2>Your risk level has been calculated</h2>
+      <h3>{selectedRisk && selectedRisk.name}</h3>
+      <p>{selectedRisk && selectedRisk.description}</p>
+      {<table>
         <tbody>
-          {surveyData && surveyData.map((element, i) => (
-            <tr key={i}>
-              <th>{Object.keys(element)[0]}</th>
-              <td>{element[Object.keys(element)[0]]}</td>
+          {riskLevels && riskLevels.map((element, index) => (
+            <tr key={index}>
+              <th>{element.name}</th>
+              <td>{element.description}</td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </table>}
       <div>
         <button onClick={onReset}>Reset the world and this form</button>
       </div>
