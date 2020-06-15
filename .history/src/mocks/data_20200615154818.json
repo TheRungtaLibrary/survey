@@ -1,0 +1,22 @@
+{
+    "riskLevels": [
+      {
+        "state": -1,
+        "name": "Risk Level 1 - Low",
+        "description": "A conservative set of investments designed to result in slow growth over time"
+      },
+      {
+        "state": 0,
+        "name": "Risk Level 2 - Medium",
+        "description": "A mix of investments designed to result in average growth over time"
+      },
+      {
+        "state": 1,
+        "name": "Risk Level 3 - High",
+        "description": "Stocks only. No bonds or cash"
+      }
+    ],
+    "userRisk":{
+        "name": ""
+      }
+  } 
